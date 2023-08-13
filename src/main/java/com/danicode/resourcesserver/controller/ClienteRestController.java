@@ -60,7 +60,7 @@ public class ClienteRestController {
 		return clienteService.findAll(pageable);
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@Secured({"ROLE_ADMIN", "ROLE_USER", "OIDC_USER"})
 	@GetMapping("/clientes/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
@@ -191,7 +191,7 @@ public class ClienteRestController {
 	}
 	
 	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER', 'OIDC_USER')")
 	@PostMapping("/clientes/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
 		Map<String, Object> response = new HashMap<>();
