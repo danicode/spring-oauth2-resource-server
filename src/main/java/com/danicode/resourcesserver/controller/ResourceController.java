@@ -21,4 +21,9 @@ public class ResourceController {
     public ResponseEntity<MessageDto> admin(Authentication authentication){
         return ResponseEntity.ok(new MessageDto("Hello Mr. " + authentication.getName()));
     }
+
+    @GetMapping("/anonymous")
+    public ResponseEntity<MessageDto> user() {
+        return ResponseEntity.ok(new MessageDto("Hello anonymous"));
+    }
 }
