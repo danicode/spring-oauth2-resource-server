@@ -1,9 +1,12 @@
 package com.danicode.resourcesserver.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -43,8 +46,19 @@ public class Cliente implements Serializable {
 	@JoinColumn(name="region_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Region region;
-	
-	
+
+
+	// @JsonIgnore
+	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties(value={"cliente", "hibernateLazyInitializer", "handler"}, allowSetters=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
+	//@JsonManagedReference
+	private List<Factura> facturas;
+
+	public Cliente() {
+		facturas = new ArrayList<>();
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -99,6 +113,18 @@ public class Cliente implements Serializable {
 
 	public void setRegion(Region region) {
 		this.region = region;
+	}
+
+	public List<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(List<Factura> facturas) {
+		this.facturas = facturas;
+	}
+
+	public void addFactura(Factura factura) {
+		facturas.add(factura);
 	}
 
 	private static final long serialVersionUID = 1L;

@@ -84,7 +84,9 @@ public class ClienteRestController {
 	}
 	
 	//@Secured("ROLE_ADMIN")
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@Secured({"ROLE_ADMIN"})
+	//@PostMapping(value = "/clientes", consumes = {"application/json"})
 	@PostMapping("/clientes")
 	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
 		
@@ -95,7 +97,7 @@ public class ClienteRestController {
 
 			List<String> errors = result.getFieldErrors()
 					.stream()
-					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
 					.collect(Collectors.toList());
 			
 			response.put("errors", errors);
